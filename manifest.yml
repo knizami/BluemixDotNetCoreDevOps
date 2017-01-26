@@ -1,0 +1,12 @@
+---
+declared-services: 
+  sample-aspnetcore-cloudant-cloudantNoSQLDB:
+    label: cloudantNoSQLDB 
+    plan: Lite 
+applications:
+- name: sample-aspnetcore-cloudant
+  random-route: true
+  memory: 512M
+  services:
+  - sample-aspnetcore-cloudant-cloudantNoSQLDB
+  
