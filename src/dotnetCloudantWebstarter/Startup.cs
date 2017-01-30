@@ -18,7 +18,7 @@ public class Startup
     {
 
         var configBuilder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("./config.json", optional: false);
+            .AddJsonFile("./config.json", optional: true);
         Configuration = configBuilder.Build();
         string vcapservicesEnv = System.Environment.GetEnvironmentVariable("VCAP_SERVICES");
 

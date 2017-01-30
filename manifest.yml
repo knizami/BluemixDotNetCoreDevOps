@@ -1,12 +1,12 @@
 ---
 declared-services: 
-  sample-aspnetcore-cloudant-cloudantNoSQLDB:
+  JKEWalletDotNetCoreDemo:
     label: cloudantNoSQLDB 
     plan: Lite 
 applications:
-- name: sample-aspnetcore-cloudant
-  random-route: true
+- name: BluemixDotNetInterconnect
   memory: 512M
+  disk_quota: 2048M
   services:
-  - sample-aspnetcore-cloudant-cloudantNoSQLDB
+  - JKEWalletDotNetCoreDemo
   

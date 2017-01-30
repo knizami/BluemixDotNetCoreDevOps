@@ -2,15 +2,15 @@
     "VCAP_SERVICES": {
         "cloudantNoSQLDB": [{
             "credentials": {
-                "host": "0fc2745e-cdd4-4e92-9c73-6c010dc561ba-bluemix.cloudant.com",
-                "password": "8f77a795977f154f19edc81b9147255e47da6ff40adae517e4d8be94b420bdd3",
+                "host": "7dacd9e6-d042-4ef0-9a38-271fad312e84-bluemix.cloudant.com",
+                "password": "2cd42a202ba906d3870cc6a15a971f07e1329376488dc6a8a1f408a19ef17a27",
                 "port": 443,
-                "url": "https://0fc2745e-cdd4-4e92-9c73-6c010dc561ba-bluemix:8f77a795977f154f19edc81b9147255e47da6ff40adae517e4d8be94b420bdd3@0fc2745e-cdd4-4e92-9c73-6c010dc561ba-bluemix.cloudant.com",
-                "username": "0fc2745e-cdd4-4e92-9c73-6c010dc561ba-bluemix"
+                "url": "https://7dacd9e6-d042-4ef0-9a38-271fad312e84-bluemix:2cd42a202ba906d3870cc6a15a971f07e1329376488dc6a8a1f408a19ef17a27@7dacd9e6-d042-4ef0-9a38-271fad312e84-bluemix.cloudant.com",
+                "username": "7dacd9e6-d042-4ef0-9a38-271fad312e84-bluemix"
             },
             "label": "cloudantNoSQLDB",
-            "name": "JKEWalletDB",
-            "plan": "Shared",
+            "name": "JKEWalletDotNetCoreDemo",
+            "plan": "Lite",
             "provider": null,
             "syslog_drain_url": null,
             "tags": [

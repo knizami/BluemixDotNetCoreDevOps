@@ -11,6 +11,9 @@ namespace CloudantDotNet.Services
         Task<dynamic> CreateAsync(ToDoItem item);
         Task<dynamic> DeleteAsync(ToDoItem item);
         Task<dynamic> GetAccountsAsync(Auth user);
+        Task<dynamic> GetAccountTypesAsync(Auth user);
+        Task<dynamic> GetPayeesAsync(Auth user);
+        Task<dynamic> GetChecksAsync(Auth user);
         Task PopulateTestData();
         Task<string> UpdateAsync(ToDoItem item);
     }

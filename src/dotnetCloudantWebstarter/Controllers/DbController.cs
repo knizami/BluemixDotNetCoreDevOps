@@ -34,20 +34,33 @@ namespace CloudantDotNet.Controllers
         [HttpPost("/accounts")]
         public async Task<dynamic> GetAll(Auth user)
         {
-            _cloudantService._dbName = "account";
+
             return await _cloudantService.GetAccountsAsync(user);
         }
 
-        [HttpPut]
-        public async Task<string> Update(ToDoItem item)
+        [HttpPost("/accounttypes")]
+        public async Task<dynamic> GetTypes(Auth user)
         {
-            return await _cloudantService.UpdateAsync(item);
+
+            return await _cloudantService.GetAccountTypesAsync(user);
         }
 
-        [HttpDelete]
-        public async Task<dynamic> Delete(ToDoItem item)
+
+        [HttpPost("/payees")]
+        public async Task<dynamic> GetPayees(Auth user)
         {
-            return await _cloudantService.DeleteAsync(item);
+
+            return await _cloudantService.GetPayeesAsync(user);
         }
+
+
+        [HttpPost("/checks")]
+        public async Task<dynamic> GetChecks(Auth user)
+        {
+
+            return await _cloudantService.GetChecksAsync(user);
+        }
+
+
     }
 }
