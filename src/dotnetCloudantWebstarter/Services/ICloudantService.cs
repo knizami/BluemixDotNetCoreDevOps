@@ -5,6 +5,7 @@ namespace CloudantDotNet.Services
 {
     public interface ICloudantService
     {
+        Task<dynamic> LoginAsync(Auth user);
         Task<dynamic> CreateAsync(ToDoItem item);
         Task<dynamic> DeleteAsync(ToDoItem item);
         Task<dynamic> GetAllAsync();

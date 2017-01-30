@@ -22,6 +22,13 @@ namespace CloudantDotNet.Controllers
             return await _cloudantService.CreateAsync(item);
         }
 
+        [HttpPost]
+        public async Task<dynamic> Login(Auth user)
+        {
+            return await _cloudantService.LoginAsync(user);
+        }
+
+
         [HttpGet]
         public async Task<dynamic> GetAll()
         {

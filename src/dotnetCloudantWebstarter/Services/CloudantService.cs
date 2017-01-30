@@ -10,13 +10,31 @@ namespace CloudantDotNet.Services
 {
     public class CloudantService : ICloudantService
     {
-        private static readonly string _dbName = "todos";
+        private static readonly string _dbName = "account";
         private readonly Creds _cloudantCreds;
 
         public CloudantService(Creds creds)
         {
             _cloudantCreds = creds;
         }
+
+        public async Task<dynamic> LoginAsync(Auth user)
+        {
+            using (var client = CloudantClient())
+            {
+                var response = await client.PostAsJsonAsync(_dbName, user);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = await response.Content.ReadAsAsync<ToDoItem>();
+                    return JsonConvert.SerializeObject(new { id = responseJson.id, rev = responseJson.rev });
+                }
+                string msg = "Failure to POST. Status Code: " + response.StatusCode + ". Reason: " + response.ReasonPhrase;
+                Console.WriteLine(msg);
+                return JsonConvert.SerializeObject(new { msg = "Failure to POST. Status Code: " + response.StatusCode + ". Reason: " + response.ReasonPhrase });
+            }
+        }
+
+
 
         public async Task<dynamic> CreateAsync(ToDoItem item)
         {
@@ -103,7 +121,7 @@ namespace CloudantDotNet.Services
                     }
                 }
             }
-        } 
+        }
 
         private HttpClient CloudantClient()
         {
