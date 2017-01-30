@@ -1,6 +1,6 @@
 namespace CloudantDotNet.Models
 {
-    public class Accounts
+    public class Account : CloudantDoc
     {
         public string acctid { get; set; }
         public string username { get; set; }

@@ -1,1 +1,23 @@
-{}
+{
+    "VCAP_SERVICES": {
+        "cloudantNoSQLDB": [{
+            "credentials": {
+                "host": "0fc2745e-cdd4-4e92-9c73-6c010dc561ba-bluemix.cloudant.com",
+                "password": "8f77a795977f154f19edc81b9147255e47da6ff40adae517e4d8be94b420bdd3",
+                "port": 443,
+                "url": "https://0fc2745e-cdd4-4e92-9c73-6c010dc561ba-bluemix:8f77a795977f154f19edc81b9147255e47da6ff40adae517e4d8be94b420bdd3@0fc2745e-cdd4-4e92-9c73-6c010dc561ba-bluemix.cloudant.com",
+                "username": "0fc2745e-cdd4-4e92-9c73-6c010dc561ba-bluemix"
+            },
+            "label": "cloudantNoSQLDB",
+            "name": "JKEWalletDB",
+            "plan": "Shared",
+            "provider": null,
+            "syslog_drain_url": null,
+            "tags": [
+                "data_management",
+                "ibm_created",
+                "ibm_dedicated_public"
+            ]
+        }]
+    }
+}

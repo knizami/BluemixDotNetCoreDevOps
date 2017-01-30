@@ -9,7 +9,7 @@ namespace CloudantDotNet.Controllers
     [Route("api/[controller]")]
     public class DbController : Controller
     {
-        private readonly ICloudantService _cloudantService;
+        private ICloudantService _cloudantService;
 
         public DbController(ICloudantService cloudantService)
         {
@@ -22,17 +22,20 @@ namespace CloudantDotNet.Controllers
             return await _cloudantService.CreateAsync(item);
         }
 
-        [HttpPost]
+        [HttpPost("/login")]
         public async Task<dynamic> Login(Auth user)
         {
+
+            Console.WriteLine("User input: " + user.username);
             return await _cloudantService.LoginAsync(user);
         }
 
 
-        [HttpGet]
-        public async Task<dynamic> GetAll()
+        [HttpPost("/accounts")]
+        public async Task<dynamic> GetAll(Auth user)
         {
-            return await _cloudantService.GetAllAsync();
+            _cloudantService._dbName = "account";
+            return await _cloudantService.GetAccountsAsync(user);
         }
 
         [HttpPut]

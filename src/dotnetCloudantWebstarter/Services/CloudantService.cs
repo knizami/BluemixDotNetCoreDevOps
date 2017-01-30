@@ -5,12 +5,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace CloudantDotNet.Services
 {
     public class CloudantService : ICloudantService
     {
-        private static readonly string _dbName = "account";
+        public string _dbName { get; set; }
         private readonly Creds _cloudantCreds;
 
         public CloudantService(Creds creds)
@@ -20,20 +19,99 @@ namespace CloudantDotNet.Services
 
         public async Task<dynamic> LoginAsync(Auth user)
         {
+            this._dbName = "users";
+
+            Console.WriteLine("Auth sent is: " + user.username);
             using (var client = CloudantClient())
             {
-                var response = await client.PostAsJsonAsync(_dbName, user);
+                //var query = "{ \"selector\": { \"username\": \"" + user.username + "\", \"password\": \"" + user.password + "\"}}";
+                CloudantQuery query = new CloudantQuery(user);
+
+                //var response = await client.PostAsync(_dbName + "/_find", new StringContent(query, Encoding.UTF8, "application/json"));
+                var response = await client.PostAsJsonAsync(_dbName + "/_find", query);
+
+                Console.WriteLine("Query is: " + JsonConvert.SerializeObject(query));
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseJson = await response.Content.ReadAsAsync<ToDoItem>();
-                    return JsonConvert.SerializeObject(new { id = responseJson.id, rev = responseJson.rev });
+                    var responseJson = await response.Content.ReadAsAsync<CloudantAuthResult>();
+                    //var responseJson = await response.Content.ReadAsStringAsync();
+                    //Console.WriteLine("Response was: " + responseJson);
+                    Console.WriteLine("Response was: " + responseJson.docs.Length);
+                    if (responseJson.docs.Length > 0)
+                    {
+                        AuthResult result = new AuthResult();
+                        result.status = "success";
+                        result.username = user.username;
+                        return JsonConvert.SerializeObject(result);
+                    }
+                    else
+                    {
+                        AuthResult result = new AuthResult();
+                        result.status = "Invalid Username or Password";
+                        return JsonConvert.SerializeObject(result);
+                    }
                 }
-                string msg = "Failure to POST. Status Code: " + response.StatusCode + ". Reason: " + response.ReasonPhrase;
+                string msg = "Failure to POST. Status Code: " + response.StatusCode + ". Reason: " + response.ReasonPhrase + "Request Message:" + response.RequestMessage;
                 Console.WriteLine(msg);
                 return JsonConvert.SerializeObject(new { msg = "Failure to POST. Status Code: " + response.StatusCode + ". Reason: " + response.ReasonPhrase });
             }
         }
 
+        public async Task<dynamic> GetAccountsAsync(Auth user)
+        {
+            using (var client = CloudantClient())
+            {
+                var userlogin = await this.LoginAsync(user);
+                AuthResult loginresult = JsonConvert.DeserializeObject<AuthResult>(userlogin);
+                //var query = "{ \"selector\": { \"username\": \"" + user.username + "\", \"password\": \"" + user.password + "\"}}";
+
+                if (loginresult.status.Equals("success"))
+                {
+                    this._dbName = "account";
+                    CloudantQuery query = new CloudantQuery(new { username = user.username });
+                    //var response = await client.PostAsync(_dbName + "/_find", new StringContent(query, Encoding.UTF8, "application/json"));
+                    Console.WriteLine("Query is: " + JsonConvert.SerializeObject(query));
+
+                    var response = await client.PostAsJsonAsync(_dbName + "/_find", query);
+
+                    //Console.WriteLine("Query is: " + query);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseJson = await response.Content.ReadAsAsync<CloudantAccountResult>();
+                        //var responseJson = await response.Content.ReadAsStringAsync();
+                        //Console.WriteLine("Response was: " + responseJson);
+                        Console.WriteLine("Response was: " + responseJson.docs.Length);
+                        if (responseJson.docs.Length > 0)
+                        {
+                            AccountResult accts = new AccountResult();
+                            accts.status = "success";
+                            accts.accounts = responseJson.docs;
+                            accts.totalaccounts = responseJson.docs.Length;
+                            return JsonConvert.SerializeObject(accts);
+                        }
+                        else
+                        {
+                            AccountResult accts = new AccountResult();
+                            accts.status = "No Accounts";
+                            return JsonConvert.SerializeObject(accts);
+                        }
+                    }
+                    else
+                    {
+                        string msg = "Failure to POST. Status Code: " + response.StatusCode + ". Reason: " + response.ReasonPhrase + "Request Message:" + response.RequestMessage;
+                        Console.WriteLine(msg);
+                        return JsonConvert.SerializeObject(new { msg = "Failure to POST. Status Code: " + response.StatusCode + ". Reason: " + response.ReasonPhrase });
+                    }
+                }
+                else
+                {
+                    AccountResult accts = new AccountResult();
+                    accts.status = "Invalid Credentials";
+                    return JsonConvert.SerializeObject(accts);
+                }
+
+            }
+        }
 
 
         public async Task<dynamic> CreateAsync(ToDoItem item)
@@ -68,20 +146,6 @@ namespace CloudantDotNet.Services
             }
         }
 
-        public async Task<dynamic> GetAllAsync()
-        {
-            using (var client = CloudantClient())
-            {
-                var response = await client.GetAsync(_dbName + "/_all_docs?include_docs=true");
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadAsStringAsync();
-                }
-                string msg = "Failure to GET. Status Code: " + response.StatusCode + ". Reason: " + response.ReasonPhrase;
-                Console.WriteLine(msg);
-                return JsonConvert.SerializeObject(new { msg = msg });
-            }
-        }
 
         public async Task<string> UpdateAsync(ToDoItem item)
         {
@@ -130,6 +194,7 @@ namespace CloudantDotNet.Services
                 throw new Exception("Missing Cloudant NoSQL DB service credentials");
             }
 
+            Console.WriteLine("The username is: " + _cloudantCreds.username + " and password is: " + _cloudantCreds.password);
             var auth = Convert.ToBase64String(Encoding.ASCII.GetBytes(_cloudantCreds.username + ":" + _cloudantCreds.password));
 
             HttpClient client = HttpClientFactory.Create(new LoggingHandler());

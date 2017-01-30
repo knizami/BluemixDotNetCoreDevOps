@@ -1,8 +1,10 @@
 namespace CloudantDotNet.Models
 {
-    public class Auth
+    public class AuthResult
     {
+        public string status { get; set; }
         public string username { get; set; }
-        public string password { get; set; }
     }
+
+
 }

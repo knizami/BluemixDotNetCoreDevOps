@@ -1,14 +1,17 @@
 {
     "buildOptions": {
         "copyToOutput": {
-            "include": [ "wwwroot", "**.cshtml", "config.json" ],
-            "exclude": [ "bin", "obj" ]
+            "include": ["wwwroot", "**.cshtml", "config.json"],
+            "exclude": ["bin", "obj"]
         },
         "debugType": "portable",
         "emitEntryPoint": true,
         "preserveCompilationContext": true
     },
 
+    "tools": {
+        "Microsoft.DotNet.Watcher.Tools": "1.1.0-preview4-final"
+    },
     "dependencies": {
         "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
         "Microsoft.AspNetCore.Diagnostics": "1.0.0",
@@ -38,11 +41,11 @@
     },
 
     "publishOptions": {
-        "include": [ "wwwroot", "**.cshtml" ],
-        "exclude": [ "**.user", "**.vspscc", "bin", "obj" ]
+        "include": ["wwwroot", "**.cshtml"],
+        "exclude": ["**.user", "**.vspscc", "bin", "obj"]
     },
 
-    "scripts": { },
+    "scripts": {},
 
     "version": "1.0.1"
 }
