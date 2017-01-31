@@ -25,7 +25,8 @@ namespace CloudantDotNet.Services
             using (var client = CloudantClient())
             {
                 //var query = "{ \"selector\": { \"username\": \"" + user.username + "\", \"password\": \"" + user.password + "\"}}";
-                CloudantQuery query = new CloudantQuery(user);
+                String[] filterquery = new String[] { "username", "password" };
+                CloudantQuery query = new CloudantQuery(user, filterquery);
 
                 //var response = await client.PostAsync(_dbName + "/_find", new StringContent(query, Encoding.UTF8, "application/json"));
                 var response = await client.PostAsJsonAsync(_dbName + "/_find", query);
@@ -68,7 +69,8 @@ namespace CloudantDotNet.Services
                 if (loginresult.status.Equals("success"))
                 {
                     this._dbName = "account";
-                    CloudantQuery query = new CloudantQuery(new { username = user.username });
+                    String[] filterquery = new String[] { "name", "type", "balance" };
+                    CloudantQuery query = new CloudantQuery(new { username = user.username }, filterquery);
                     //var response = await client.PostAsync(_dbName + "/_find", new StringContent(query, Encoding.UTF8, "application/json"));
                     Console.WriteLine("Query is: " + JsonConvert.SerializeObject(query));
 
@@ -124,7 +126,9 @@ namespace CloudantDotNet.Services
                 if (loginresult.status.Equals("success"))
                 {
                     this._dbName = "account";
-                    CloudantQuery query = new CloudantQuery(new { username = user.username });
+                    String[] filterquery = new String[] { "name", "type", "balance" };
+
+                    CloudantQuery query = new CloudantQuery(new { username = user.username }, filterquery);
                     //var response = await client.PostAsync(_dbName + "/_find", new StringContent(query, Encoding.UTF8, "application/json"));
                     Console.WriteLine("Query is: " + JsonConvert.SerializeObject(query));
 
@@ -180,7 +184,10 @@ namespace CloudantDotNet.Services
                 if (loginresult.status.Equals("success"))
                 {
                     this._dbName = "check";
-                    CloudantQuery query = new CloudantQuery(new { username = user.username });
+                    String[] filterquery = new String[] { "payee", "name", "username", "amount", "desc", "date" };
+
+                    CloudantQuery query = new CloudantQuery(new { username = user.username }, filterquery);
+
                     //var response = await client.PostAsync(_dbName + "/_find", new StringContent(query, Encoding.UTF8, "application/json"));
                     Console.WriteLine("Query is: " + JsonConvert.SerializeObject(query));
 
@@ -189,23 +196,23 @@ namespace CloudantDotNet.Services
                     //Console.WriteLine("Query is: " + query);
                     if (response.IsSuccessStatusCode)
                     {
-                        var responseJson = await response.Content.ReadAsAsync<CloudantAccountResult>();
+                        var responseJson = await response.Content.ReadAsAsync<CloudantCheckResult>();
                         //var responseJson = await response.Content.ReadAsStringAsync();
                         //Console.WriteLine("Response was: " + responseJson);
                         Console.WriteLine("Response was: " + responseJson.docs.Length);
                         if (responseJson.docs.Length > 0)
                         {
-                            AccountResult accts = new AccountResult();
-                            accts.status = "success";
-                            accts.accounts = responseJson.docs;
-                            accts.totalaccounts = responseJson.docs.Length;
-                            return JsonConvert.SerializeObject(accts);
+                            CheckResult checks = new CheckResult();
+                            checks.status = "success";
+                            checks.checks = responseJson.docs;
+                            checks.totalchecks = responseJson.docs.Length;
+                            return JsonConvert.SerializeObject(checks);
                         }
                         else
                         {
-                            AccountResult accts = new AccountResult();
-                            accts.status = "No Payees";
-                            return JsonConvert.SerializeObject(accts);
+                            CheckResult checks = new CheckResult();
+                            checks.status = "No Checks";
+                            return JsonConvert.SerializeObject(checks);
                         }
                     }
                     else
@@ -237,7 +244,8 @@ namespace CloudantDotNet.Services
                 if (loginresult.status.Equals("success"))
                 {
                     this._dbName = "check";
-                    CloudantQuery query = new CloudantQuery(new { username = user.username });
+                    String[] filterquery = new String[] { "payee", "name", "username", "amount", "desc", "date" };
+                    CloudantQuery query = new CloudantQuery(new { username = user.username }, filterquery);
                     //var response = await client.PostAsync(_dbName + "/_find", new StringContent(query, Encoding.UTF8, "application/json"));
                     Console.WriteLine("Query is: " + JsonConvert.SerializeObject(query));
 
@@ -246,23 +254,23 @@ namespace CloudantDotNet.Services
                     //Console.WriteLine("Query is: " + query);
                     if (response.IsSuccessStatusCode)
                     {
-                        var responseJson = await response.Content.ReadAsAsync<CloudantAccountResult>();
+                        var responseJson = await response.Content.ReadAsAsync<CloudantCheckResult>();
                         //var responseJson = await response.Content.ReadAsStringAsync();
                         //Console.WriteLine("Response was: " + responseJson);
                         Console.WriteLine("Response was: " + responseJson.docs.Length);
                         if (responseJson.docs.Length > 0)
                         {
-                            AccountResult accts = new AccountResult();
-                            accts.status = "success";
-                            accts.accounts = responseJson.docs;
-                            accts.totalaccounts = responseJson.docs.Length;
-                            return JsonConvert.SerializeObject(accts);
+                            CheckResult checks = new CheckResult();
+                            checks.status = "success";
+                            checks.checks = responseJson.docs;
+                            checks.totalchecks = responseJson.docs.Length;
+                            return JsonConvert.SerializeObject(checks);
                         }
                         else
                         {
-                            AccountResult accts = new AccountResult();
-                            accts.status = "No Payees";
-                            return JsonConvert.SerializeObject(accts);
+                            CheckResult checks = new CheckResult();
+                            checks.status = "No Checks";
+                            return JsonConvert.SerializeObject(checks);
                         }
                     }
                     else
