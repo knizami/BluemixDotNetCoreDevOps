@@ -1,8 +1,6 @@
-# ASP.NET Core Cloudant Sample
+# ASP.NET Core Demo REST service
 
-This application demonstrates how to use the Bluemix Cloudant NoSQL DB Service in an ASP.NET Core application.
-
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM-Bluemix/aspnet-core-cloudant)
+This application demonstrates how to implement a REST service using ASP.NET Core and deploy it to IBM Bluemix.  The application uses a cloudant NoSQL backend, in our demos we used the cloudant database service hosted on Bluemix.
 
 ## Run the app locally
 
