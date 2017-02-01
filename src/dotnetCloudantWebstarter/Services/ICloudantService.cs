@@ -14,6 +14,7 @@ namespace CloudantDotNet.Services
         Task<dynamic> GetAccountTypesAsync(Auth user);
         Task<dynamic> GetPayeesAsync(Auth user);
         Task<dynamic> GetChecksAsync(Auth user);
+        Task<dynamic> SaveChecksAsync(SaveCheck savecheck);
         Task PopulateTestData();
         Task<string> UpdateAsync(ToDoItem item);
     }

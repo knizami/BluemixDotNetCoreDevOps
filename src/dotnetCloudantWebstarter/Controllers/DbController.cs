@@ -61,6 +61,14 @@ namespace CloudantDotNet.Controllers
             return await _cloudantService.GetChecksAsync(user);
         }
 
+        [HttpPost("/savecheck")]
+        public async Task<dynamic> SaveCheck([FromBody] SaveCheck savecheckreq)
+        {
+            Console.WriteLine("Received Check: " + savecheckreq.check.payee + "User is: " + savecheckreq.username);
+            return await _cloudantService.SaveChecksAsync(savecheckreq);
+        }
+
+
 
     }
 }

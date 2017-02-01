@@ -291,6 +291,52 @@ namespace CloudantDotNet.Services
         }
 
 
+        public async Task<dynamic> SaveChecksAsync(SaveCheck savecheck)
+        {
+            using (var client = CloudantClient())
+            {
+                Auth user = new Auth();
+                user.username = savecheck.username;
+                user.password = savecheck.password;
+
+                var userlogin = await this.LoginAsync(user);
+                AuthResult loginresult = JsonConvert.DeserializeObject<AuthResult>(userlogin);
+                //var query = "{ \"selector\": { \"username\": \"" + user.username + "\", \"password\": \"" + user.password + "\"}}";
+
+                if (loginresult.status.Equals("success"))
+                {
+                    this._dbName = "check";
+                    savecheck.check.username = savecheck.username;
+                    var response = await client.PostAsJsonAsync(_dbName, savecheck.check);
+                    //var response = await client.PostAsJsonAsync(_dbName + "/_find", query);
+
+                    //Console.WriteLine("Query is: " + query);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseJson = await response.Content.ReadAsAsync<CloudantCreateResult>();
+                        //var responseJson = await response.Content.ReadAsStringAsync();
+                        //Console.WriteLine("Response was: " + responseJson);
+                        Console.WriteLine("Response was: " + responseJson.ok);
+                        return JsonConvert.SerializeObject(responseJson);
+                    }
+                    else
+                    {
+                        string msg = "Failure to POST. Status Code: " + response.StatusCode + ". Reason: " + response.ReasonPhrase + "Request Message:" + response.RequestMessage;
+                        Console.WriteLine(msg);
+                        return JsonConvert.SerializeObject(new { msg = "Failure to POST. Status Code: " + response.StatusCode + ". Reason: " + response.ReasonPhrase });
+                    }
+                }
+                else
+                {
+                    AccountResult accts = new AccountResult();
+                    accts.status = "Invalid Credentials";
+                    return JsonConvert.SerializeObject(accts);
+                }
+
+            }
+        }
+
+
         public async Task<dynamic> CreateAsync(ToDoItem item)
         {
             using (var client = CloudantClient())

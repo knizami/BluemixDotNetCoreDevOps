@@ -8,6 +8,9 @@ namespace CloudantDotNet.Models
         public decimal amount { get; set; }
         public string desc { get; set; }
         public int date { get; set; }
+        public string id { get; set; }
+
+        public string rev { get; set; }
     }
 
 
