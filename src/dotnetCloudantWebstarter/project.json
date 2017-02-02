@@ -8,10 +8,6 @@
         "emitEntryPoint": true,
         "preserveCompilationContext": true
     },
-
-    "tools": {
-        "Microsoft.DotNet.Watcher.Tools": "1.1.0-preview4-final"
-    },
     "testRunner": "xunit",
     "dependencies": {
         "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",

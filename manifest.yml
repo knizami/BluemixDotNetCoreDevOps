@@ -4,7 +4,8 @@ declared-services:
     label: cloudantNoSQLDB 
     plan: Lite 
 applications:
-- name: DotNetCoreDevOpsDev
+- name: DotNetCoreDevOpsDev2
+  buildpack: dotnet-core
   memory: 512M
   disk_quota: 2048M
   services:

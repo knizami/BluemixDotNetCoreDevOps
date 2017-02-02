@@ -10247,29 +10247,6 @@
     ],
     ".NETCoreApp,Version=v1.0": []
   },
-  "tools": {
-    ".NETCoreApp,Version=v1.0": {
-      "Microsoft.DotNet.Watcher.Tools/1.1.0-preview4-final": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
-          "Microsoft.Extensions.CommandLineUtils": "1.1.0",
-          "Microsoft.Extensions.Logging": "1.1.0",
-          "Microsoft.Extensions.Logging.Console": "1.1.0",
-          "Microsoft.NETCore.App": "1.1.0"
-        },
-        "compile": {
-          "lib/netcoreapp1.0/dotnet-watch.dll": {}
-        },
-        "runtime": {
-          "lib/netcoreapp1.0/dotnet-watch.dll": {}
-        }
-      }
-    }
-  },
-  "projectFileToolGroups": {
-    ".NETCoreApp,Version=v1.0": [
-      "Microsoft.DotNet.Watcher.Tools >= 1.1.0-preview4-final"
-    ]
-  }
+  "tools": {},
+  "projectFileToolGroups": {}
 }
