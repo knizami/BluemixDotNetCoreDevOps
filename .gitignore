@@ -5,4 +5,4 @@ obj/
 *.xproj.user
 project.lock.json
 config.json
-
+xunit.results.xml
