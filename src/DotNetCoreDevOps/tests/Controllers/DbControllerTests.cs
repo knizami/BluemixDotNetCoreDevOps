@@ -14,9 +14,10 @@ namespace TestControllers.Tests.UnitTests
         [Fact]
         public async Task Payees_ReturnsAJSONResult_WithAListOfPayees()
         {
-            var MockDbSvc = new Mock<ICloudantService>();
+            /*var MockDbSvc = new Mock<ICloudantService>();
             MockDbSvc.Setup(svc => svc.GetPayeesAsync(It.IsAny<Auth>()))
             .Returns(Task.FromResult(GetPayees()));
+            */
 
         }
 
