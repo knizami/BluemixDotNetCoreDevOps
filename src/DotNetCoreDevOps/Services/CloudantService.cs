@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 namespace CloudantDotNet.Services
+//nothing...
 {
     public class CloudantService : ICloudantService
     {
