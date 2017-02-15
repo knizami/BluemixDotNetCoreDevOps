@@ -50,6 +50,7 @@ namespace JKEWallet.IntegrationTests
                 username = "default"
             };
             // Assert
+            Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
             AuthResult result = JsonConvert.DeserializeObject<AuthResult>(responseString);
             Assert.Equal("success", result.status);
 
